@@ -1,4 +1,5 @@
 <template>
+  <SideBar />
   <div class="index-container">
     <!-- main -->
     <button class="back-to-top">
@@ -86,8 +87,12 @@
 </template>
 
 <script>
+import SideBar from '@/components/SideBar.vue'
 export default {
   name: 'home',
+  components: {
+    SideBar,
+  },
   data() {
     return {
       filters: [
