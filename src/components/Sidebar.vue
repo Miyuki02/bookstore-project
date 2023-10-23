@@ -45,8 +45,8 @@
             </li>
             <li class="nav-links">
               <a href="#">
-                <i class="bx bx-chat icon"></i>
-                <span class="text nav-text">Contact Us</span>
+                <i class="bx bx-user icon"></i>
+                <span class="text nav-text">Profile</span>
               </a>
             </li>
             <li class="nav-links">

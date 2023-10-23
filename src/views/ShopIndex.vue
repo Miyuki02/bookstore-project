@@ -1,7 +1,7 @@
 <template>
   <div class="index-container">
     <SideBar />
-    
+
     <button class="back-to-top">
       <ion-icon name="caret-up-outline"></ion-icon>
     </button>
@@ -15,31 +15,9 @@
           <input type="text" placeholder="What book do you want to find?" />
           <button class="search-btn">Search</button>
         </div>
-        <!-- profile icon on left side of navbar -->
+        <!-- profile icon -->
         <div class="profile">
           <a class="cart" href="#"><ion-icon name="cart-outline"></ion-icon></a>
-          <a class="user" href="#"><ion-icon name="person-outline"></ion-icon></a>
-        </div>
-      </div>
-      <!-- main highlight -->
-      <div class="main-highlight">
-        <!-- title section and arrow -->
-        <div class="main-header">
-          <h2 class="main-title">Recommendations</h2>
-          <div class="main-arrow">
-            <ion-icon class="back" name="chevron-back-circle-outline"></ion-icon>
-            <ion-icon class="next" name="chevron-forward-circle-outline"></ion-icon>
-          </div>
-        </div>
-        <!-- highlight menu -->
-        <div class="highlight-wrapper">
-          <div v-for="highlight in highlights" :key="highlight.id" class="highlight-card">
-            <img class="highlight-img" :src="highlight.imgUrl" />
-            <div class="highlight-desc">
-              <h4>{{ highlight.name }}</h4>
-              <p>{{ highlight.price }}</p>
-            </div>
-          </div>
         </div>
       </div>
       <!-- main menus / order -->
@@ -48,10 +26,6 @@
         <div class="main-filter">
           <div>
             <h2 class="main-title">Books <br />Category</h2>
-            <div class="main-arrow">
-              <ion-icon class="back-menus" name="chevron-back-circle-outline"></ion-icon>
-              <ion-icon class="next-menus" name="chevron-forward-circle-outline"></ion-icon>
-            </div>
           </div>
           <!-- Books category -->
           <div class="filter-wrapper">
@@ -77,7 +51,6 @@
                   <p class="detail-sub">{{ book.description }}</p>
                   <p class="price">{{ book.price }}</p>
                 </div>
-                <ion-icon class="detail-favorites" name="bookmark-outline"></ion-icon>
               </div>
             </div>
           </div>
@@ -329,8 +302,7 @@ html {
   gap: 0.5rem;
 }
 
-.cart,
-.user {
+.cart {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -342,8 +314,7 @@ html {
   height: 40px;
   border-radius: 50%;
 }
-.cart:hover,
-.user:hover {
+.cart:hover {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
@@ -363,9 +334,6 @@ html {
 .main-title {
   font-size: 20px;
 }
-.main-arrow {
-  font-size: 24px;
-}
 
 .back,
 .next {
@@ -377,56 +345,13 @@ html {
   color: var(--primaryColor);
 }
 
-.highlight-wrapper {
-  width: 100%;
-  display: flex;
-  padding: 1px;
-  border-radius: 8px;
-  gap: 1.5rem;
-  overflow-x: hidden;
-}
-
-.highlight-card {
-  display: flex;
-  flex-direction: row;
-  min-width: 200px;
-  width: auto;
-  height: 100%;
-  gap: 1rem;
-  border-radius: 8px;
-  padding: 1%;
-  background-color: var(--greyColor);
-  cursor: pointer;
-}
-
-.highlight-img {
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  object-fit: cover;
-  object-position: center;
-}
-
-.highlight-desc h4 {
-  color: var(--primaryColor);
-}
-
-.highlight-desc p {
-  color: var(--blackColor);
-  font-size: 13px;
-}
-
-.highlight-card:hover {
-  background-color: var(--whiteColor);
-  box-shadow: rbga(176, 176, 176, 0.2) 0px 2px 8px 0px;
-}
-
 .main-menus {
   min-height: 100%;
   height: 100%;
   background-color: var(--greyColor);
   padding: 2%;
   border-radius: 8px;
+  margin-top: 20px;
 }
 
 .main-filter {
@@ -435,16 +360,6 @@ html {
   flex-direction: row;
   align-items: center;
   gap: 1.5rem;
-}
-
-.back-menus,
-.next-menus {
-  cursor: pointer;
-}
-
-.back-menus:hover,
-.next-menus:hover {
-  color: var(--primaryColor);
 }
 
 .filter-wrapper {
@@ -542,24 +457,14 @@ html {
   padding: 3%;
   width: 100%;
 }
-
 .detail-sub {
   font-size: 12px;
   color: var(--darkGreyColor);
   letter-spacing: 0.5;
   margin: 1% 0;
 }
-
 .price {
   color: var(--primaryColor);
-}
-
-.detail-favorites {
-  font-size: 24px;
-}
-
-.detail-favorites:hover {
-  color: var(--secondaryColor);
 }
 
 .detail-card:hover {
