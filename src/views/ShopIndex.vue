@@ -254,7 +254,7 @@ html {
   height: max-content;
   min-height: 100vh;
   padding: 2%;
-  background-color: var(--softGreenColor);
+  /* background-color: var(--softGreenColor); */
   /* margin-left: 250px; */
 }
 
@@ -529,6 +529,7 @@ body::-webkit-scrollbar-thumb {
   width: calc(100% - 240px);
   position: relative;
   left: 240px;
+  background: var(--body-color);
   transition: var(--tran-05);
 }
 .sidebar.close ~ .home {

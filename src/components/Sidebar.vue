@@ -106,13 +106,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 body {
   height: 100vh;
   background: var(--body-color);
   transition: var(--tran-04);
 }
-
+/* Define palete for body dark mode */
 body.dark {
   --body-color: #18191a;
   --sidebar-color: #242526;
@@ -217,6 +217,7 @@ header .image-text .header-text {
 .sidebar.close header .toggle {
   transform: translate(-50%);
 }
+/* Arrow for open and closeing sidebar */
 body.dark .sidebar header .toggle {
   right: -40px;
   color: var(--text-color);
