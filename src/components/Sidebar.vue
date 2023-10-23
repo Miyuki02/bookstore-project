@@ -216,10 +216,10 @@ header .image-text .header-text {
   transform: translate(-50%);
 }
 body.dark .sidebar header .toggle {
-  right: -28px;
-  transform: rotate(180deg);
+  right: -40px;
   color: var(--text-color);
 }
+
 .sidebar li a {
   height: 100%;
   width: 100%;

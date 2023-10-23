@@ -1,11 +1,12 @@
 <template>
-  <SideBar />
   <div class="index-container">
-    <!-- main -->
+    <SideBar />
+    
     <button class="back-to-top">
       <ion-icon name="caret-up-outline"></ion-icon>
     </button>
 
+    <!-- main -->
     <div class="main">
       <!-- main navbar -->
       <div class="main-navbar">
@@ -91,7 +92,7 @@ import SideBar from '@/components/SideBar.vue'
 export default {
   name: 'home',
   components: {
-    SideBar,
+    SideBar
   },
   data() {
     return {
@@ -99,7 +100,7 @@ export default {
         {
           id: 1,
           iconName: 'book-outline',
-          name: 'All Books'
+          name: 'All'
         },
         {
           id: 2,
@@ -268,7 +269,7 @@ html {
   --darkGreyColor: #a7a7a7;
   --greyColor: #f5f5f5;
 }
-.index-container{
+.index-container {
   width: 100%;
   height: auto;
   display: flex;
@@ -478,8 +479,9 @@ html {
   height: 60%;
   font-size: 30px;
   background-color: var(--softGreenColor);
-  color: var(--primaryColor);
+  /* color: var(--primaryColor); */
   border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .filter-card:hover {
@@ -489,6 +491,7 @@ html {
 
 .filter-card:hover .filter-icon {
   background-color: var(--whiteColor);
+  color: var(--primaryColor);
 }
 
 .divider {
