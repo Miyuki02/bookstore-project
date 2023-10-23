@@ -1,5 +1,4 @@
 <template>
-  <aside>
     <nav class="sidebar" :class="{ close: !isSidebarOpen }">
       <header>
         <div class="image-text">
@@ -80,7 +79,9 @@
         </div>
       </div>
     </nav>
-  </aside>
+    
+
+
 </template>
 
 <script>
@@ -105,7 +106,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   height: 100vh;
   background: var(--body-color);
@@ -132,6 +133,7 @@ body.dark {
   transition: var(--tran-05);
   z-index: 100;
 }
+/* use to calc shopindex page later */
 .sidebar.close {
   width: 88px;
 }

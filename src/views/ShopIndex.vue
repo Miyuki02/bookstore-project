@@ -6,57 +6,59 @@
       <ion-icon name="caret-up-outline"></ion-icon>
     </button>
 
-    <!-- main -->
-    <div class="main">
-      <!-- main navbar -->
-      <div class="main-navbar">
-        <!-- search bar -->
-        <div class="search">
-          <input type="text" placeholder="What book do you want to find?" />
-          <button class="search-btn">Search</button>
-        </div>
-        <!-- profile icon -->
-        <div class="profile">
-          <a class="cart" href="#"><ion-icon name="cart-outline"></ion-icon></a>
-        </div>
-      </div>
-      <!-- main menus / order -->
-      <div class="main-menus">
-        <!-- filter section -->
-        <div class="main-filter">
-          <div>
-            <h2 class="main-title">Books <br />Category</h2>
+    <section class="home">
+      <!-- main -->
+      <div class="main">
+        <!-- main navbar -->
+        <div class="main-navbar">
+          <!-- search bar -->
+          <div class="search">
+            <input type="text" placeholder="What book do you want to find?" />
+            <button class="search-btn">Search</button>
           </div>
-          <!-- Books category -->
-          <div class="filter-wrapper">
-            <div v-for="filter in filters" :key="filter.id" class="filter-card">
-              <div class="filter-icon">
-                <ion-icon :name="filter.iconName"></ion-icon>
+          <!-- profile icon -->
+          <div class="profile">
+            <a class="cart" href="#"><ion-icon name="cart-outline"></ion-icon></a>
+          </div>
+        </div>
+        <!-- main menus / order -->
+        <div class="main-menus">
+          <!-- filter section -->
+          <div class="main-filter">
+            <div>
+              <h2 class="main-title">Books <br />Category</h2>
+            </div>
+            <!-- Books category -->
+            <div class="filter-wrapper">
+              <div v-for="filter in filters" :key="filter.id" class="filter-card">
+                <div class="filter-icon">
+                  <ion-icon :name="filter.iconName"></ion-icon>
+                </div>
+                <p>{{ filter.name }}</p>
               </div>
-              <p>{{ filter.name }}</p>
             </div>
           </div>
-        </div>
-        <hr class="divider" />
-        <!-- List of books -->
-        <div class="main-detail">
-          <h2 class="main-title">Chọn sách</h2>
-          <!-- Detail wrapper -->
-          <div class="detail-wrapper">
-            <div v-for="book in books" :key="book.id" class="detail-card">
-              <img class="detail-img" :src="book.imageUrl" />
-              <div class="detail-desc">
-                <div class="detail-name">
-                  <h4>{{ book.name }}</h4>
-                  <p class="detail-sub">{{ book.description }}</p>
-                  <p class="price">{{ book.price }}</p>
+          <hr class="divider" />
+          <!-- List of books -->
+          <div class="main-detail">
+            <h2 class="main-title">Chọn sách</h2>
+            <!-- Detail wrapper -->
+            <div class="detail-wrapper">
+              <div v-for="book in books" :key="book.id" class="detail-card">
+                <img class="detail-img" :src="book.imageUrl" />
+                <div class="detail-desc">
+                  <div class="detail-name">
+                    <h4>{{ book.name }}</h4>
+                    <p class="detail-sub">{{ book.description }}</p>
+                    <p class="price">{{ book.price }}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
@@ -253,7 +255,7 @@ html {
   min-height: 100vh;
   padding: 2%;
   background-color: var(--softGreenColor);
-  margin-left: 250px;
+  /* margin-left: 250px; */
 }
 
 .main-navbar {
@@ -520,5 +522,17 @@ body::-webkit-scrollbar-thumb {
   background-color: var(--secondaryColor);
   color: var(--whiteColor);
   border: 3px solid var(--whiteColor);
+}
+
+.home {
+  height: 100vh;
+  width: calc(100% - 240px);
+  position: relative;
+  left: 240px;
+  transition: var(--tran-05);
+}
+.sidebar.close ~ .home {
+  width: calc(100% - 88px);
+  left: 88px;
 }
 </style>
