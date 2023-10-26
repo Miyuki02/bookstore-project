@@ -18,7 +18,7 @@
             <div class="filter-wrapper">
               <div v-for="filter in filters" :key="filter.id" class="filter-card">
                 <div class="filter-icon">
-                  <ion-icon :name="filter.iconName"></ion-icon>
+                  <i :class="filter.iconName"></i>
                 </div>
                 <p>{{ filter.name }}</p>
               </div>
@@ -73,42 +73,42 @@ export default {
       filters: [
         {
           id: 1,
-          iconName: 'book-outline',
+          iconName: 'bx bx-book',
           name: 'All'
         },
         {
           id: 2,
-          iconName: 'disc-outline',
+          iconName: 'bx bx-target-lock',
           name: 'Action'
         },
         {
           id: 3,
-          iconName: 'business-outline',
+          iconName: 'bx bx-briefcase-alt',
           name: 'Business'
         },
         {
           id: 4,
-          iconName: 'pizza-outline',
+          iconName: 'bx bx-bowl-hot',
           name: 'Cooking'
         },
         {
           id: 5,
-          iconName: 'happy-outline',
+          iconName: 'bx bx-laugh',
           name: 'Humor'
         },
         {
           id: 6,
-          iconName: 'hourglass-outline',
+          iconName: 'bx bxs-hourglass',
           name: 'History'
         },
         {
           id: 7,
-          iconName: 'eye-outline',
+          iconName: 'bx bx-ghost',
           name: 'Horror'
         },
         {
           id: 8,
-          iconName: 'medkit-outline',
+          iconName: 'bx bxs-capsule',
           name: 'Medical'
         }
       ],
@@ -368,7 +368,6 @@ html {
   height: 60%;
   font-size: 30px;
   background-color: var(--softGreenColor);
-  /* color: var(--primaryColor); */
   border-radius: 8px;
   transition: all 0.2s ease;
 }

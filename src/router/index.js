@@ -17,7 +17,7 @@ const router = createRouter({
       // Sử dụng component Home khi địa chỉ này được truy cập.
       component: Home,
       // Đặt tên cho route, dễ dàng sử dụng trong code khác.
-      name: 'ShopIndex'
+      name: 'Home'
     },
     {
       // Địa chỉ URL không khớp với bất kỳ route nào ở trên.
