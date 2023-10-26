@@ -2,20 +2,21 @@
   <div class="index-container">
     <SideBar />
 
-    <button class="back-to-top">
-      <ion-icon name="caret-up-outline"></ion-icon>
-    </button>
-
     <section class="home">
       <!-- main -->
       <div class="main">
         <!-- main navbar -->
         <div class="main-navbar">
+          
           <!-- search bar -->
-          <div class="search">
-            <input type="text" placeholder="What book do you want to find?" />
-            <button class="search-btn">Search</button>
+          <div class="input-box">
+            <input type="text" placeholder="Search..." />
+            <span class="search">
+              <i class="uil uil-search search-icon"></i>
+            </span>
+            <i class="uil uil-times close-icon"></i>
           </div>
+
           <!-- profile icon -->
           <div class="profile">
             <a class="cart" href="#"><ion-icon name="cart-outline"></ion-icon></a>
@@ -63,6 +64,7 @@
 </template>
 
 <script>
+// attach sidebar into shopIndex
 import SideBar from '@/components/SideBar.vue'
 export default {
   name: 'home',
@@ -226,6 +228,16 @@ export default {
         }
       ]
     }
+  },
+  mounted() {
+    // This code will run after the component is mounted to the DOM
+    // You can manipulate the DOM here
+    let inputBox = document.querySelector('.input-box'),
+      search = document.querySelector('.search'),
+      closeIcon = document.querySelector('.close-icon')
+
+    search.addEventListener('click', () => inputBox.classList.add('open'))
+    closeIcon.addEventListener('click', () => inputBox.classList.remove('open'))
   }
 }
 </script>
@@ -254,7 +266,7 @@ html {
   height: max-content;
   min-height: 100vh;
   padding: 2%;
-  /* background-color: var(--softGreenColor); */
+  background-color: var(--softGreenColor);
   /* margin-left: 250px; */
 }
 
@@ -263,46 +275,82 @@ html {
   justify-content: space-between;
   align-items: center;
 }
+/* Search box */
 
-.search {
-  width: 50%;
-  height: 40px;
-  display: flex;
-  justify-content: space-around;
-  background-color: var(--whiteColor);
-  border-radius: 20px;
+.input-box {
+  position: relative;
+  height: 55px;
+  max-width: 60px;
+  width: 100%;
+  margin: 0 40px;
+  border-radius: 6px;
+  background-color: #fff;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-
-.search input {
-  width: 80%;
+.input-box.open {
+  max-width: 450px;
+  margin: 0;
+}
+.input-box input {
+  position: relative;
+  outline: none;
+  border: none;
   height: 100%;
-  padding-left: 20px;
-  border: none;
-  border-radius: 20px;
+  width: 100%;
+  padding: 0 15px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--blackColor);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-
-.search-btn {
-  background-color: var(--secondaryColor);
-  color: var(--whiteColor);
-  border: none;
-  border-radius: 20px;
-  width: 20%;
-  cursor: pointer;
+.input-box.open input {
+  padding: 0 15px 0 65px;
 }
-
-.search:hover {
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}
-
-.search-btn:hover {
-  background-color: var(--primaryColor);
-}
-
-.profile {
-  display: flex;
+.input-box .search {
+  position: absolute;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  display: flex;
+  height: 100%;
+  width: 60px;
+  border-radius: 6px;
+  background-color: #fff;
+  left: 0;
+  top: 0;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
+.input-box.open .search {
+  border-radius: 6px 0 0 6px;
+}
+/* Search icon */
+.search .search-icon {
+  font-size: 30px;
+  color: var(--primaryColor);
+  transform: rotate(90deg);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.input-box.open .search-icon {
+  transform: rotate(0deg);
+}
+/* Close icon */
+.input-box .close-icon {
+  position: absolute;
+  right: -45px;
+  top: 50%;
+  font-size: 30px;
+  transform: translateY(-50%);
+  padding: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.input-box.open .close-icon {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) rotate(180deg);
+}
+
 
 .cart {
   display: flex;
@@ -484,46 +532,16 @@ html {
 .detail-card:hover .price {
   letter-spacing: 1.5px;
 }
-
 body::-webkit-scrollbar {
   width: 5px;
 }
-
 body::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-
 body::-webkit-scrollbar-thumb {
   background-color: var(--primaryColor);
   outline: 1px solid var(--primaryColor);
 }
-
-.back-to-top {
-  position: fixed;
-  bottom: 25px;
-  right: 20px;
-  font-size: 26px;
-  width: 50px;
-  height: 50px;
-  background-color: var(--whiteColor);
-  color: var(--primaryColor);
-  outline: none;
-  border: 3px solid var(--primaryColor);
-  border-radius: 50%;
-  transition-duration: 0.2s;
-  transition-timing-function: ease-in-out;
-  transition-property: background-color, color;
-  z-index: 99;
-  cursor: pointer;
-}
-
-.back-to-top:hover,
-.back-to-top:focus {
-  background-color: var(--secondaryColor);
-  color: var(--whiteColor);
-  border: 3px solid var(--whiteColor);
-}
-
 .home {
   height: 100vh;
   width: calc(100% - 240px);

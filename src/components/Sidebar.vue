@@ -18,36 +18,28 @@
       <div class="menu-bar">
         <div class="menu">
           <ul class="menu-links">
+            <!-- Home -->
             <li class="nav-links">
               <a href="#">
                 <i class="bx bx-home-alt icon"></i>
                 <span class="text nav-text">Home</span>
               </a>
             </li>
-            <li class="nav-links">
-              <a href="#">
-                <i class="bx bx-money icon"></i>
-                <span class="text nav-text">Bills</span>
-              </a>
-            </li>
-            <li class="nav-links">
-              <a href="#">
-                <i class="bx bx-wallet icon"></i>
-                <span class="text nav-text">Wallet</span>
-              </a>
-            </li>
+            <!-- Notification -->
             <li class="nav-links">
               <a href="#">
                 <i class="bx bx-bell icon"></i>
                 <span class="text nav-text">Notification</span>
               </a>
             </li>
+            <!-- Profile -->
             <li class="nav-links">
               <a href="#">
                 <i class="bx bx-user icon"></i>
                 <span class="text nav-text">Profile</span>
               </a>
             </li>
+            <!-- Setting -->
             <li class="nav-links">
               <a href="#">
                 <i class="bx bx-cog icon"></i>
@@ -57,6 +49,7 @@
           </ul>
         </div>
 
+        <!-- Logout section -->
         <div class="footer">
           <li class="">
             <a href="/Login">
@@ -64,24 +57,11 @@
               <span class="text nav-text">Logout</span>
             </a>
           </li>
-
-          <li class="mode">
-            <div class="light-dark" @click="toggleDarkMode">
-              <i class="bx bx-moon icon moon" v-if="!isDarkMode"></i>
-              <i class="bx bx-sun icon sun" v-if="isDarkMode"></i>
-            </div>
-            <span class="mode-text text">{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
-
-            <div class="toggle-switch" @click="toggleDarkMode">
-              <div class="switch" :class="{ dark: isDarkMode }"></div>
-            </div>
-          </li>
         </div>
+
       </div>
     </nav>
     
-
-
 </template>
 
 <script>
@@ -89,16 +69,10 @@ export default {
   name: 'SideBar',
   data() {
     return {
-      isDarkMode: false,
-      isSidebarOpen: true // Control sidebar open/close
+      isSidebarOpen: true
     }
   },
   methods: {
-    toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode
-      const body = document.querySelector('body')
-      body.classList.toggle('dark', this.isDarkMode)
-    },
     toggleSidebar() {
       this.isSidebarOpen = !this.isSidebarOpen
     }
@@ -111,15 +85,6 @@ body {
   height: 100vh;
   background: var(--body-color);
   transition: var(--tran-04);
-}
-/* Define palete for body dark mode */
-body.dark {
-  --body-color: #18191a;
-  --sidebar-color: #242526;
-  --primary-color: #3a3b3c;
-  --primary-color-light: #3a3b3c;
-  --toggle-color: #fff;
-  --text-color: #ccc;
 }
 /* ===== Sidebar ===== */
 .sidebar {
@@ -156,7 +121,7 @@ body.dark {
 }
 .sidebar li {
   height: 50px;
-  margin-top: 10px;
+  margin-top: 20px;
   list-style: none;
   display: flex;
   align-items: center;
@@ -217,11 +182,6 @@ header .image-text .header-text {
 .sidebar.close header .toggle {
   transform: translate(-50%);
 }
-/* Arrow for open and closeing sidebar */
-body.dark .sidebar header .toggle {
-  right: -40px;
-  color: var(--text-color);
-}
 
 .sidebar li a {
   height: 100%;
@@ -241,10 +201,6 @@ body.dark .sidebar header .toggle {
 .sidebar li a:hover .text {
   color: var(--sidebar-color);
 }
-body.dark .sidebar li a:hover .icon,
-body.dark .sidebar li a:hover .text {
-  color: var(--text-color);
-}
 
 .sidebar .menu-bar {
   height: calc(100% - 50px);
@@ -252,64 +208,5 @@ body.dark .sidebar li a:hover .text {
   flex-direction: column;
   justify-content: space-between;
 }
-.menu-bar .mode {
-  position: relative;
-  background: var(--primary-color-light);
-  border-radius: 6px;
-}
-.menu-bar .mode .light-dark {
-  height: 50px;
-  width: 60px;
-  display: flex;
-  align-items: center;
-}
-.menu-bar .mode i {
-  position: absolute;
-  transition: var(--tran-03);
-}
 
-.menu-bar .mode i.sun {
-  opacity: 0;
-}
-body.dark .menu-bar .mode i.sun {
-  opacity: 1;
-}
-body.dark .menu-bar .mode i.moon {
-  opacity: 0;
-}
-.menu-bar .mode .toggle-switch {
-  position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  min-width: 60px;
-  cursor: pointer;
-  border-radius: 6px;
-  background: var(--primary-color-light);
-}
-
-.toggle-switch .switch {
-  position: relative;
-  height: 22px;
-  width: 44px;
-  background: var(--toggle-color);
-  border-radius: 25px;
-}
-.switch::before {
-  content: '';
-  position: absolute;
-  height: 15px;
-  width: 15px;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: var(--sidebar-color);
-  transition: var(--tran-03);
-}
-body.dark .switch::before {
-  left: 24px;
-}
 </style>
