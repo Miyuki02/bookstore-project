@@ -49,16 +49,6 @@
           </ul>
         </div>
 
-        <!-- Logout section -->
-        <div class="footer">
-          <li class="">
-            <a href="/Login">
-              <i class="bx bx-log-out icon"></i>
-              <span class="text nav-text">Logout</span>
-            </a>
-          </li>
-        </div>
-
       </div>
     </nav>
     
@@ -203,10 +193,7 @@ header .image-text .header-text {
 }
 
 .sidebar .menu-bar {
-  height: calc(100% - 50px);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin-top: calc(100% - 50px);
 }
 
 </style>

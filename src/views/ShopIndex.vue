@@ -5,22 +5,8 @@
     <section class="home">
       <!-- main -->
       <div class="main">
-        <!-- main navbar -->
-        <div class="main-navbar">
-          <!-- search bar -->
-          <div class="input-box">
-            <input type="text" placeholder="Search..." />
-            <span class="search">
-              <i class="uil uil-search search-icon"></i>
-            </span>
-            <i class="uil uil-times close-icon"></i>
-          </div>
-
-          <!-- profile icon -->
-          <div class="profile">
-            <a class="cart" href="#"><ion-icon name="cart-outline"></ion-icon></a>
-          </div>
-        </div>
+        <!-- search bar -->
+        <Search />
         <!-- main menus / order -->
         <div class="main-menus">
           <!-- filter section -->
@@ -44,7 +30,7 @@
             <h2 class="main-title">Chọn sách</h2>
             <!-- product wrapper -->
             <div class="product-wrapper">
-              <div v-for="book in books" :key="book.id" class="product-list">
+              <div v-for="book in displayedProducts" :key="book.id" class="product-list">
                 <img class="product-img" :src="book.imageUrl" />
                 <div class="product-desc">
                   <div class="product-name">
@@ -55,6 +41,14 @@
               </div>
             </div>
           </div>
+
+          <!-- Pagination component -->
+          <Pagination
+            :totalPages="totalPages"
+            :currentPage="currentPage"
+            :length="length"
+            @update:currentPage="handlePageChange"
+          />
         </div>
       </div>
     </section>
@@ -64,9 +58,14 @@
 <script>
 // attach sidebar into shopIndex
 import SideBar from '@/components/SideBar.vue'
+import Pagination from '@/components/Pagination.vue'
+import Search from '@/components/SearchBar.vue'
+
 export default {
   name: 'home',
   components: {
+    Pagination,
+    Search,
     SideBar
   },
   data() {
@@ -212,7 +211,24 @@ export default {
           name: 'ÁĐAsadsađâsđâs',
           price: '99.000đ'
         }
-      ]
+      ],
+      currentPage: 1, // Initialize with the current page
+      totalPages: 10, // Set the total number of pages
+      length: 5, // Set page length
+      productsPerPage: 8 // Number of products per page
+    }
+  },
+  computed: {
+    displayedProducts() {
+      const start = (this.currentPage - 1) * this.productsPerPage
+      const end = start + this.productsPerPage
+      return this.books.slice(start, end)
+    }
+  },
+  methods: {
+    // Handle the page change event and update the currentPage data property
+    handlePageChange(newPage) {
+      this.currentPage = newPage
     }
   },
   mounted() {
@@ -232,7 +248,6 @@ export default {
 html {
   scroll-behavior: smooth;
 }
-
 :root {
   --primaryColor: #96c93e;
   --secondaryColor: #ffc107;
@@ -259,81 +274,6 @@ html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-/* Search box */
-.input-box {
-  position: relative;
-  height: 55px;
-  max-width: 60px;
-  width: 100%;
-  margin: 0 40px;
-  border-radius: 6px;
-  background-color: #fff;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.input-box.open {
-  max-width: 450px;
-  margin: 0;
-}
-.input-box input {
-  position: relative;
-  outline: none;
-  border: none;
-  height: 100%;
-  width: 100%;
-  padding: 0 15px;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--blackColor);
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.input-box.open input {
-  padding: 0 15px 0 65px;
-}
-.input-box .search {
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  height: 100%;
-  width: 60px;
-  border-radius: 6px;
-  background-color: #fff;
-  left: 0;
-  top: 0;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.input-box.open .search {
-  border-radius: 6px 0 0 6px;
-}
-/* Search icon */
-.search .search-icon {
-  font-size: 30px;
-  color: var(--primaryColor);
-  transform: rotate(90deg);
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.input-box.open .search-icon {
-  transform: rotate(0deg);
-}
-/* Close icon */
-.input-box .close-icon {
-  position: absolute;
-  right: -45px;
-  top: 50%;
-  font-size: 30px;
-  transform: translateY(-50%);
-  padding: 5px;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.input-box.open .close-icon {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(-50%) rotate(180deg);
 }
 
 .cart {
@@ -470,10 +410,18 @@ html {
   background-color: var(--whiteColor);
   border-radius: 8px;
   margin: 1% 0;
-  box-shadow: rbga(176, 176, 176, 0.2) 0px 2px 8px 0px;
+  box-shadow: rgba(176, 176, 176, 0.2) 0px 2px 8px 0px;
   cursor: pointer;
+  transform: translateY(20px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
-
+.product-list:hover {
+  box-shadow: rgba(149, 157, 165, 0.2) 0 px 8px 24px;
+  opacity: 1;
+  transform: translateY(0);
+}
 .product-img {
   width: 100%;
   height: auto;
@@ -493,11 +441,6 @@ html {
 .price {
   color: var(--primaryColor);
 }
-
-.product-list:hover {
-  box-shadow: rgba(149, 157, 165, 0.2) 0 px 8px 24px;
-}
-
 .product-list:hover .product-img {
   filter: opacity(1);
 }
