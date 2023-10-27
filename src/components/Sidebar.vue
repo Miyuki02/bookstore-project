@@ -1,57 +1,66 @@
 <template>
-    <nav class="sidebar" :class="{ close: !isSidebarOpen }">
-      <header>
-        <div class="image-text">
-          <span class="image">
-            <img src="@/assets/logo.png" alt="logo" />
-          </span>
+  <nav class="sidebar" :class="{ close: !isSidebarOpen }">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="@/assets/logo.png" alt="logo" />
+        </span>
 
-          <div class="text header-text">
-            <span class="name">Bookstore</span>
-            <span class="user-name">User</span>
-          </div>
+        <div class="text header-text">
+          <span class="name">Bookstore</span>
+          <span class="user-name">Admin</span>
         </div>
-
-        <i class="bx bx-chevron-right toggle" @click="toggleSidebar"></i>
-      </header>
-
-      <div class="menu-bar">
-        <div class="menu">
-          <ul class="menu-links">
-            <!-- Home -->
-            <li class="nav-links">
-              <a href="#">
-                <i class="bx bx-home-alt icon"></i>
-                <span class="text nav-text">Home</span>
-              </a>
-            </li>
-            <!-- Notification -->
-            <li class="nav-links">
-              <a href="#">
-                <i class="bx bx-bell icon"></i>
-                <span class="text nav-text">Notification</span>
-              </a>
-            </li>
-            <!-- Profile -->
-            <li class="nav-links">
-              <a href="#">
-                <i class="bx bx-user icon"></i>
-                <span class="text nav-text">Profile</span>
-              </a>
-            </li>
-            <!-- Setting -->
-            <li class="nav-links">
-              <a href="#">
-                <i class="bx bx-cog icon"></i>
-                <span class="text nav-text">Setting</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
       </div>
-    </nav>
-    
+
+      <i class="bx bx-chevron-right toggle" @click="toggleSidebar"></i>
+    </header>
+
+    <div class="menu-bar">
+      <div class="menu">
+        <ul class="menu-links">
+          <!-- Home -->
+          <li class="nav-links">
+            <a href="#">
+              <i class="bx bx-home-alt icon"></i>
+              <span class="text nav-text">Home</span>
+            </a>
+          </li>
+          <!-- Notification -->
+          <li class="nav-links">
+            <a href="#">
+              <i class="bx bx-bell icon"></i>
+              <span class="text nav-text">Notification</span>
+            </a>
+          </li>
+          <!-- Profile -->
+          <li class="nav-links">
+            <a href="#">
+              <i class="bx bx-user icon"></i>
+              <span class="text nav-text">Profile</span>
+            </a>
+          </li>
+          <!-- Setting -->
+          <li class="nav-links">
+            <a href="#">
+              <i class="bx bx-cog icon"></i>
+              <span class="text nav-text">Setting</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Logout section -->
+      <div class="footer">
+        <li class="">
+          <a href="/Login">
+            <i class="bx bx-log-out icon"></i>
+            <span class="text nav-text">Logout</span>
+          </a>
+        </li>
+      </div>
+      
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -193,7 +202,9 @@ header .image-text .header-text {
 }
 
 .sidebar .menu-bar {
-  margin-top: calc(100% - 50px);
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-
 </style>

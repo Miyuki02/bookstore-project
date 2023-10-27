@@ -20,6 +20,12 @@ const router = createRouter({
       name: 'Home'
     },
     {
+      // Địa chỉ URL '/login'.
+      path: '/login',
+      // Sử dụng component Login khi địa chỉ này được truy cập.
+      component: () => import('../views/Login.vue')
+    },
+    {
       // Địa chỉ URL không khớp với bất kỳ route nào ở trên.
       // Thường được sử dụng để xử lý trang 404 (Không tìm thấy).
       path: '/:pathMatch(.*)*',
