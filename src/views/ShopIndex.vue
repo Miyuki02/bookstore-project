@@ -6,7 +6,7 @@
       <!-- main -->
       <div class="main">
         <!-- search bar -->
-        <Search />
+        <Search v-model="searchText" />
         <!-- main menus / order -->
         <div class="main-menus">
           <!-- filter section -->
@@ -30,7 +30,7 @@
             <h2 class="main-title">Chọn sách</h2>
             <!-- product wrapper -->
             <div class="product-wrapper">
-              <div v-for="book in displayedProducts" :key="book.id" class="product-list">
+              <div v-for="book in searchedBooks" :key="book.id" class="product-list">
                 <img class="product-img" :src="book.imageUrl" />
                 <div class="product-desc">
                   <div class="product-name">
@@ -55,192 +55,153 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed } from 'vue'
 // attach sidebar into shopIndex
 import SideBar from '@/components/SideBar.vue'
 import Pagination from '@/components/Pagination.vue'
 import Search from '@/components/SearchBar.vue'
 
-export default {
-  name: 'home',
-  components: {
-    Pagination,
-    Search,
-    SideBar
+const filters = [
+  {
+    id: 1,
+    iconName: 'bx bx-book',
+    name: 'All'
   },
-  data() {
-    return {
-      filters: [
-        {
-          id: 1,
-          iconName: 'bx bx-book',
-          name: 'All'
-        },
-        {
-          id: 2,
-          iconName: 'bx bx-target-lock',
-          name: 'Action'
-        },
-        {
-          id: 3,
-          iconName: 'bx bx-briefcase-alt',
-          name: 'Business'
-        },
-        {
-          id: 4,
-          iconName: 'bx bx-bowl-hot',
-          name: 'Cooking'
-        },
-        {
-          id: 5,
-          iconName: 'bx bx-laugh',
-          name: 'Humor'
-        },
-        {
-          id: 6,
-          iconName: 'bx bxs-hourglass',
-          name: 'History'
-        },
-        {
-          id: 7,
-          iconName: 'bx bx-ghost',
-          name: 'Horror'
-        },
-        {
-          id: 8,
-          iconName: 'bx bxs-capsule',
-          name: 'Medical'
-        }
-      ],
-      books: [
-        {
-          id: 1,
-          imageUrl: 'book1.png',
-          name: 'Book 1',
-          price: '99.000đ'
-        },
-        {
-          id: 2,
-          imageUrl: 'book2.png',
-          name: 'Book 2',
-          price: '99.000đ'
-        },
-        {
-          id: 3,
-          imageUrl: 'book3.png',
-          name: 'Book 3',
-          price: '99.000đ'
-        },
-        {
-          id: 4,
-          imageUrl: 'book4.png',
-          name: 'Book 4',
-          price: '99.000đ'
-        },
-        {
-          id: 5,
-          imageUrl: 'book5.png',
-          name: 'Book 5',
-          price: '99.000đ'
-        },
-        {
-          id: 6,
-          imageUrl: 'book6.png',
-          name: 'Book 6',
-          price: '99.000đ'
-        },
-        {
-          id: 7,
-          imageUrl: 'book7.png',
-          name: 'Book 7',
-          price: '99.000đ'
-        },
-        {
-          id: 8,
-          imageUrl: 'book8.png',
-          name: 'Book 8',
-          price: '99.000đ'
-        },
-        {
-          id: 9,
-          imageUrl: 'book9.png',
-          name: 'Book 9',
-          price: '99.000đ'
-        },
-        {
-          id: 10,
-          imageUrl: 'book10.png',
-          name: 'Book 10',
-          price: '99.000đ'
-        },
-        {
-          id: 11,
-          imageUrl: 'book11.png',
-          name: 'Book 11',
-          price: '99.000đ'
-        },
-        {
-          id: 12,
-          imageUrl: 'book12.png',
-          name: 'Book 12',
-          price: '99.000đ'
-        }
-      ],
-      highlights: [
-        {
-          id: 1,
-          imgUrl: 'book1.png',
-          name: 'Sự im lặng của bầy cừu',
-          price: '99.000đ'
-        },
-        {
-          id: 2,
-          imgUrl: 'book2.png',
-          name: 'Tôi thấy hoa vàng trên cỏ xanh',
-          price: '99.000đ'
-        },
-        {
-          id: 3,
-          imgUrl: 'book3.png',
-          name: 'Abcdefg',
-          price: '99.000đ'
-        },
-        {
-          id: 4,
-          imgUrl: 'book4.png',
-          name: 'ÁĐAsadsađâsđâs',
-          price: '99.000đ'
-        }
-      ],
-      currentPage: 1, // Initialize with the current page
-      totalPages: 10, // Set the total number of pages
-      length: 5, // Set page length
-      productsPerPage: 8 // Number of products per page
-    }
+  {
+    id: 2,
+    iconName: 'bx bx-target-lock',
+    name: 'Action'
   },
-  computed: {
-    displayedProducts() {
-      const start = (this.currentPage - 1) * this.productsPerPage
-      const end = start + this.productsPerPage
-      return this.books.slice(start, end)
-    }
+  {
+    id: 3,
+    iconName: 'bx bx-briefcase-alt',
+    name: 'Business'
   },
-  methods: {
-    // Handle the page change event and update the currentPage data property
-    handlePageChange(newPage) {
-      this.currentPage = newPage
-    }
+  {
+    id: 4,
+    iconName: 'bx bx-bowl-hot',
+    name: 'Cooking'
   },
-  mounted() {
-    // This code will run after the component is mounted to the DOM
-    // You can manipulate the DOM here
-    let inputBox = document.querySelector('.input-box'),
-      search = document.querySelector('.search'),
-      closeIcon = document.querySelector('.close-icon')
-
-    search.addEventListener('click', () => inputBox.classList.add('open'))
-    closeIcon.addEventListener('click', () => inputBox.classList.remove('open'))
+  {
+    id: 5,
+    iconName: 'bx bx-laugh',
+    name: 'Humor'
+  },
+  {
+    id: 6,
+    iconName: 'bx bxs-hourglass',
+    name: 'History'
+  },
+  {
+    id: 7,
+    iconName: 'bx bx-ghost',
+    name: 'Horror'
+  },
+  {
+    id: 8,
+    iconName: 'bx bxs-capsule',
+    name: 'Medical'
   }
+]
+const books = [
+  {
+    id: 1,
+    imageUrl: 'book1.png',
+    name: 'Book 1',
+    price: '99.000đ'
+  },
+  {
+    id: 2,
+    imageUrl: 'book2.png',
+    name: 'Book 2',
+    price: '99.000đ'
+  },
+  {
+    id: 3,
+    imageUrl: 'book3.png',
+    name: 'Book 3',
+    price: '99.000đ'
+  },
+  {
+    id: 4,
+    imageUrl: 'book4.png',
+    name: 'Book 4',
+    price: '99.000đ'
+  },
+  {
+    id: 5,
+    imageUrl: 'book5.png',
+    name: 'Book 5',
+    price: '99.000đ'
+  },
+  {
+    id: 6,
+    imageUrl: 'book6.png',
+    name: 'Book 6',
+    price: '99.000đ'
+  },
+  {
+    id: 7,
+    imageUrl: 'book7.png',
+    name: 'Book 7',
+    price: '99.000đ'
+  },
+  {
+    id: 8,
+    imageUrl: 'book8.png',
+    name: 'Book 8',
+    price: '99.000đ'
+  },
+  {
+    id: 9,
+    imageUrl: 'book9.png',
+    name: 'Book 9',
+    price: '99.000đ'
+  },
+  {
+    id: 10,
+    imageUrl: 'book10.png',
+    name: 'Book 10',
+    price: '99.000đ'
+  },
+  {
+    id: 11,
+    imageUrl: 'book11.png',
+    name: 'Book 11',
+    price: '99.000đ'
+  },
+  {
+    id: 12,
+    imageUrl: 'book12.png',
+    name: 'Book 12',
+    price: '99.000đ'
+  }
+]
+
+// Define the variables with `ref` if they're reactive
+const currentPage = ref(1)
+const totalPages = 10
+const length = 5
+const productsPerPage = 8
+const searchText = ref('')
+
+// Comnputed
+const searchedBooks = computed(() => {
+  const start = (currentPage.value - 1) * productsPerPage
+  const end = start + productsPerPage
+  const searchWords = searchText.value.toLowerCase().split(' ')
+
+  const filteredBooks = books.filter((book) => {
+    return searchWords.every((word) => book.name.toLowerCase().includes(word))
+  })
+
+  return filteredBooks.slice(start, end)
+})
+
+// Method
+const handlePageChange = (newPage) => {
+  currentPage.value = newPage
 }
 </script>
 

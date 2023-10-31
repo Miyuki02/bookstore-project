@@ -1,6 +1,13 @@
 <template>
   <div class="input-box">
-    <input type="text" placeholder="Search..." />
+    <input
+      type="text"
+      id="search-item"
+      placeholder="Search..."
+      :value="modelValue"
+      @input="(e) => $emit('update:modelValue', e.target.value)"
+      @keyup.enter="$emit('submit')"
+    />
     <span class="search">
       <i class="uil uil-search search-icon"></i>
     </span>
@@ -8,10 +15,24 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Search'
-}
+<script setup>
+import { onMounted } from 'vue'
+
+const { modelValue } = defineProps({
+  modelValue: { type: String, default: '' }
+})
+
+const $emit = defineEmits(['submit', 'update:modelValue'])
+
+// Open and close the search bar
+onMounted(() => {
+  const inputBox = document.querySelector('.input-box')
+  const search = document.querySelector('.search')
+  const closeIcon = document.querySelector('.close-icon')
+
+  search.addEventListener('click', () => inputBox.classList.add('open'))
+  closeIcon.addEventListener('click', () => inputBox.classList.remove('open'))
+})
 </script>
 
 <style scoped>

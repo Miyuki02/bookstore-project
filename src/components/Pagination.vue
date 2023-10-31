@@ -37,46 +37,38 @@
   </div>
 </template>
 
-<script>
-import { computed, ref } from 'vue'
+<script setup>
+import { computed, ref, defineProps, defineEmits } from 'vue'
 
-export default {
-  props: {
-    totalPages: {
-      type: Number,
-      required: true
-    },
-    length: {
-      type: Number,
-      default: 3
-    },
-    currentPage: {
-      type: Number,
-      default: 1
-    }
+const props = defineProps({
+  totalPages: {
+    type: Number,
+    required: true
   },
-  setup(props, { emit }) {
-    const pages = computed(() => {
-      const start = Math.max(1, props.currentPage - Math.floor(props.length / 2))
-      const end = Math.min(start + props.length - 1, props.totalPages)
-      return Array.from({ length: end - start + 1 }, (_, i) => start + i)
-    })
+  length: {
+    type: Number,
+    default: 3
+  },
+  currentPage: {
+    type: Number,
+    default: 1
+  }
+})
 
-    // Use ref to keep track of the active page
-    const activePage = ref(props.currentPage)
+const emit = defineEmits(['update:currentPage'])
 
-    const goToPage = (page) => {
-      if (page >= 1 && page <= props.totalPages) {
-        activePage.value = page
-        emit('update:currentPage', page)
-      }
-    }
+const pages = computed(() => {
+  const start = Math.max(1, props.currentPage - Math.floor(props.length / 2))
+  const end = Math.min(start + props.length - 1, props.totalPages)
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i)
+})
 
-    return {
-      pages,
-      activePage,
-      goToPage
-    }
+const activePage = ref(props.currentPage)
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= props.totalPages) {
+    activePage.value = page
+    emit('update:currentPage', page)
   }
 }
 </script>

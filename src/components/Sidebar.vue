@@ -58,24 +58,17 @@
           </a>
         </li>
       </div>
-      
     </div>
   </nav>
 </template>
 
-<script>
-export default {
-  name: 'SideBar',
-  data() {
-    return {
-      isSidebarOpen: true
-    }
-  },
-  methods: {
-    toggleSidebar() {
-      this.isSidebarOpen = !this.isSidebarOpen
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+
+const isSidebarOpen = ref(true)
+
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value
 }
 </script>
 

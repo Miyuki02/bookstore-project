@@ -4,8 +4,4 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'notfound'
-}
-</script>
+<script setup></script>
