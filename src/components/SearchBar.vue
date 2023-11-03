@@ -18,11 +18,13 @@
 <script setup>
 import { onMounted } from 'vue'
 
+// Search book names
 const { modelValue } = defineProps({
   modelValue: { type: String, default: '' }
 })
 
 const $emit = defineEmits(['submit', 'update:modelValue'])
+
 
 // Open and close the search bar
 onMounted(() => {

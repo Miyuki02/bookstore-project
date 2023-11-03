@@ -30,7 +30,13 @@
             <h2 class="main-title">Chọn sách</h2>
             <!-- product wrapper -->
             <div class="product-wrapper">
-              <div v-for="book in searchedBooks" :key="book.id" class="product-list">
+              <div
+                v-for="book in searchedBooks"
+                :key="book.id"
+                class="product-list"
+                @click="() => goToEditBook(book)"
+              >
+              <router-link :to="{ name: 'edit', params: { id: book.id }, query: { books: JSON.stringify(books) } }"></router-link>
                 <img class="product-img" :src="book.imageUrl" />
                 <div class="product-desc">
                   <div class="product-name">
@@ -53,10 +59,14 @@
       </div>
     </section>
   </div>
+
+  
+
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router';
 // attach sidebar into shopIndex
 import SideBar from '@/components/SideBar.vue'
 import Pagination from '@/components/Pagination.vue'
@@ -203,6 +213,17 @@ const searchedBooks = computed(() => {
 const handlePageChange = (newPage) => {
   currentPage.value = newPage
 }
+
+const router = useRouter();
+
+const goToEditBook = (book) => {
+  router.push({ 
+    name: 'edit', 
+    params: { id: book.id },
+    query: { book: JSON.stringify(book) }
+  });
+};
+
 </script>
 
 <style>
