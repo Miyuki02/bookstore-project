@@ -9,22 +9,7 @@
         <Search v-model="searchText" />
         <!-- main menus / order -->
         <div class="main-menus">
-          <!-- filter section -->
-          <div class="main-filter">
-            <div>
-              <h2 class="main-title">Books <br />Category</h2>
-            </div>
-            <!-- Books category -->
-            <div class="filter-wrapper">
-              <div v-for="filter in filters" :key="filter.id" class="filter-card">
-                <div class="filter-icon">
-                  <i :class="filter.iconName"></i>
-                </div>
-                <p>{{ filter.name }}</p>
-              </div>
-            </div>
-          </div>
-          <hr class="divider" />
+
           <!-- List of books -->
           <div class="main-product">
             <h2 class="main-title">Chọn sách</h2>
@@ -36,7 +21,13 @@
                 class="product-list"
                 @click="() => goToEditBook(book)"
               >
-              <router-link :to="{ name: 'edit', params: { id: book.id }, query: { books: JSON.stringify(books) } }"></router-link>
+                <router-link
+                  :to="{
+                    name: 'edit',
+                    params: { id: book.id },
+                    query: { books: JSON.stringify(books) }
+                  }"
+                ></router-link>
                 <img class="product-img" :src="book.imageUrl" />
                 <div class="product-desc">
                   <div class="product-name">
@@ -59,61 +50,18 @@
       </div>
     </section>
   </div>
-
-  
-
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router';
+import { ref, computed, onMounted, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 // attach sidebar into shopIndex
 import SideBar from '@/components/SideBar.vue'
 import Pagination from '@/components/Pagination.vue'
 import Search from '@/components/SearchBar.vue'
 
-const filters = [
-  {
-    id: 1,
-    iconName: 'bx bx-book',
-    name: 'All'
-  },
-  {
-    id: 2,
-    iconName: 'bx bx-target-lock',
-    name: 'Action'
-  },
-  {
-    id: 3,
-    iconName: 'bx bx-briefcase-alt',
-    name: 'Business'
-  },
-  {
-    id: 4,
-    iconName: 'bx bx-bowl-hot',
-    name: 'Cooking'
-  },
-  {
-    id: 5,
-    iconName: 'bx bx-laugh',
-    name: 'Humor'
-  },
-  {
-    id: 6,
-    iconName: 'bx bxs-hourglass',
-    name: 'History'
-  },
-  {
-    id: 7,
-    iconName: 'bx bx-ghost',
-    name: 'Horror'
-  },
-  {
-    id: 8,
-    iconName: 'bx bxs-capsule',
-    name: 'Medical'
-  }
-]
+import booksService from '@/services/books.service'
+
 const books = [
   {
     id: 1,
@@ -214,15 +162,31 @@ const handlePageChange = (newPage) => {
   currentPage.value = newPage
 }
 
-const router = useRouter();
+const router = useRouter()
 
 const goToEditBook = (book) => {
-  router.push({ 
-    name: 'edit', 
+  router.push({
+    name: 'edit',
     params: { id: book.id },
     query: { book: JSON.stringify(book) }
-  });
-};
+  })
+}
+
+async function retrieveBooks() {
+  try {
+    const { books, metadata } = await booksService.getBooks(currentPage.value, productsPerPage);
+    totalPages.value = metadata.lastPage ?? 1;
+    searchedBooks.value = books;
+  } catch (error) {
+    console.error('Error retrieving books:', error);
+  }
+}
+
+// When this component is mounted, load the first page of contacts
+onMounted(() => retrieveBooks(1));
+
+// When currentPage changes, fetch contacts for currentPage
+watchEffect(() => retrieveBooks(currentPage.value));
 
 </script>
 
@@ -308,68 +272,6 @@ html {
   padding: 2%;
   border-radius: 8px;
   margin-top: 20px;
-}
-
-.main-filter {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.filter-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  overflow-x: hidden;
-  width: 100%;
-  height: 100px;
-  gap: 1.2rem;
-}
-
-.filter-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  min-width: 80px;
-  height: 100%;
-  background-color: var(--whiteColor);
-  color: var(--blackColor);
-  border-radius: 8px;
-  border: 1px solid --softGreenColor;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.filter-icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
-  height: 60%;
-  font-size: 30px;
-  background-color: var(--softGreenColor);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.filter-card:hover {
-  background-color: var(--primaryColor);
-  color: var(--whiteColor);
-}
-
-.filter-card:hover .filter-icon {
-  background-color: var(--whiteColor);
-  color: var(--primaryColor);
-}
-
-.divider {
-  margin: 1rem 0;
-  height: 2px;
-  width: 100%;
-  background-color: var(--primaryColor);
-  border: none;
 }
 
 .main-product {
