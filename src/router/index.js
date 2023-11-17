@@ -19,12 +19,19 @@ const routes = [
     // Địa chỉ URL '/login'.
     path: '/login',
     // Sử dụng component Login khi địa chỉ này được truy cập.
-    component: () => import('../views/Login.vue')
+    component: () => import('@/views/Login.vue')
   },
   {
-  path: '/editbook:id',
-  name: 'edit',
-  component: () => import('../views/EditBook.vue'),
+    path: '/books/:id',
+    name: 'book.edit',
+    component: () => import('@/views/EditBook.vue'),
+    props: (route) => ({ bookId: route.params.id })
+  },
+  {
+    path: '/books/add',
+    name: 'book.add',
+    component: () => import('@/views/AddBook.vue'),
+    
   },
   {
     // Địa chỉ URL không khớp với bất kỳ route nào ở trên.

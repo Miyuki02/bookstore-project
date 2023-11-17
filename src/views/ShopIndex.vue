@@ -13,6 +13,9 @@
           <!-- List of books -->
           <div class="main-product">
             <h2 class="main-title">Chọn sách</h2>
+            <button @click="goToAddBook">
+          <i></i> Thêm mới
+        </button>
             <!-- product wrapper -->
             <div class="product-wrapper">
               <div
@@ -23,9 +26,8 @@
               >
                 <router-link
                   :to="{
-                    name: 'edit',
+                    name: 'book.edit',
                     params: { id: book.id },
-                    query: { books: JSON.stringify(books) }
                   }"
                 ></router-link>
                 <img class="product-img" :src="book.imageUrl" />
@@ -162,14 +164,18 @@ const handlePageChange = (newPage) => {
   currentPage.value = newPage
 }
 
-const router = useRouter()
+const $router = useRouter();
 
 const goToEditBook = (book) => {
-  router.push({
-    name: 'edit',
+  $router.push({
+    name: 'book.edit',
     params: { id: book.id },
     query: { book: JSON.stringify(book) }
   })
+}
+
+function goToAddBook() {
+  $router.push({ name: "book.add" });
 }
 
 async function retrieveBooks() {
@@ -179,8 +185,11 @@ async function retrieveBooks() {
     searchedBooks.value = books;
   } catch (error) {
     console.error('Error retrieving books:', error);
+
+    // Handle the error, e.g., redirect to an error page or display a message
   }
 }
+
 
 // When this component is mounted, load the first page of contacts
 onMounted(() => retrieveBooks(1));
