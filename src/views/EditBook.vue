@@ -1,3 +1,15 @@
+<template>
+  <div v-if="book" class="page">
+    <h4>Hiệu chỉnh Sách</h4>
+    <BookForm
+      :initial-book="book"
+      @submit:book="onUpdateBook"
+      @delete:book="onDeleteBook"
+    />
+    <p>{{ message }}</p>
+  </div>
+</template>
+
 <script setup>
 import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -48,14 +60,12 @@ async function onDeleteBook(id) {
 }
 getBook(props.bookId);
 </script>
-<template>
-  <div v-if="book" class="page">
-    <h4>Hiệu chỉnh Sách</h4>
-    <BookForm
-      :initial-book="book"
-      @submit:book="onUpdateBook"
-      @delete:book="onDeleteBook"
-    />
-    <p>{{ message }}</p>
-  </div>
-</template>
+
+<style>
+.page h4{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+

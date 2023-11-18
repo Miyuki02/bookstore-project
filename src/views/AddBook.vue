@@ -47,3 +47,11 @@ async function onAddBook(newBook) {
 getBook(props.bookId);
 
 </script>
+
+<style>
+.page h4{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+</style>
