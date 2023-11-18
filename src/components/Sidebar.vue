@@ -51,8 +51,8 @@
 
       <!-- Logout section -->
       <div class="footer">
-        <li class="">
-          <a href="/Login">
+        <li>
+          <a href="/login">
             <i class="bx bx-log-out icon"></i>
             <span class="text nav-text">Logout</span>
           </a>

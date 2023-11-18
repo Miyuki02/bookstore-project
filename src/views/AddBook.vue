@@ -18,7 +18,7 @@ const $route = useRoute();
 const book = ref(null);
 const message = ref("");
 
-/* Change to this when have backend api
+
 async function getBook(id) {
   try {
     book.value = await booksService.getBook(id);
@@ -32,19 +32,6 @@ async function getBook(id) {
     });
   }
 }
-*/
-
-async function getBook(id) {
-  try {
-    const response = await booksService.getBook(id);
-    // Check if the response is valid JSON
-    const bookData = JSON.parse(response);
-    book.value = bookData;
-  } catch (error) {
-    console.error('Error fetching book:', error);
-  }
-}
-
 
 
 async function onAddBook(newBook) {

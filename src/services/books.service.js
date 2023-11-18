@@ -1,5 +1,5 @@
 function makeBooksService() {
-  const baseUrl = '/api/books'
+  const baseUrl = '/api/products'
   const headers = {
     'Content-Type': 'application/json'
   }
@@ -24,9 +24,13 @@ function makeBooksService() {
   async function getBook(id) {
     return await fetch(`${baseUrl}/${id}`).then((res) => res.json())
   }
-  async function getBooks(page, limit = 5) {
+  async function getBooks(page, limit = 8) {
     let url = `${baseUrl}?page=${page}&limit=${limit}`
-    return await fetch(url).then((res) => res.json())
+    return await fetch(url).then((res) => {
+      const data = res.json()
+      // console.log(data)
+      return data
+    })
   }
 
   // DETELE

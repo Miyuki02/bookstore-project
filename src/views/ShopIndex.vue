@@ -5,8 +5,17 @@
     <section class="home">
       <!-- main -->
       <div class="main">
+        <!-- main navbar -->
+        <div class="main-navbar">
+
         <!-- search bar -->
         <Search v-model="searchText" />
+        <!-- profile icon -->
+          <div class="profile">
+            <a class="cart" href="/cart"><i class='bx bx-cart-alt'></i></a>
+          </div>
+      </div>
+
         <!-- main menus / order -->
         <div class="main-menus">
 
@@ -14,23 +23,16 @@
           <div class="main-product">
             <h2 class="main-title">Chọn sách</h2>
             <button @click="goToAddBook">
-          <i></i> Thêm mới
-        </button>
+              <i></i> Thêm mới
+            </button>
             <!-- product wrapper -->
             <div class="product-wrapper">
-              <div
-                v-for="book in searchedBooks"
-                :key="book.id"
-                class="product-list"
-                @click="() => goToEditBook(book)"
-              >
-                <router-link
-                  :to="{
-                    name: 'book.edit',
-                    params: { id: book.id },
-                  }"
-                ></router-link>
-                <img class="product-img" :src="book.imageUrl" />
+              <div v-for="book in filteredProducts.value" :key="book.id" class="product-list" @click="() => goToEditBook(book)">
+                <router-link :to="{
+                  name: 'book.edit',
+                  params: { id: book.id },
+                }"></router-link>
+                <img class="product-img" :src="book.thumbnail" />
                 <div class="product-desc">
                   <div class="product-name">
                     <h4>{{ book.name }}</h4>
@@ -42,16 +44,13 @@
           </div>
 
           <!-- Pagination component -->
-          <Pagination
-            :totalPages="totalPages"
-            :currentPage="currentPage"
-            :length="length"
-            @update:currentPage="handlePageChange"
-          />
+          <Pagination :totalPages="totalPages" :currentPage="currentPage" :length="length"
+            @update:currentPage="handlePageChange" />
         </div>
       </div>
     </section>
   </div>
+
 </template>
 
 <script setup>
@@ -64,100 +63,35 @@ import Search from '@/components/SearchBar.vue'
 
 import booksService from '@/services/books.service'
 
-const books = [
-  {
-    id: 1,
-    imageUrl: 'book1.png',
-    name: 'Book 1',
-    price: '99.000đ'
-  },
-  {
-    id: 2,
-    imageUrl: 'book2.png',
-    name: 'Book 2',
-    price: '99.000đ'
-  },
-  {
-    id: 3,
-    imageUrl: 'book3.png',
-    name: 'Book 3',
-    price: '99.000đ'
-  },
-  {
-    id: 4,
-    imageUrl: 'book4.png',
-    name: 'Book 4',
-    price: '99.000đ'
-  },
-  {
-    id: 5,
-    imageUrl: 'book5.png',
-    name: 'Book 5',
-    price: '99.000đ'
-  },
-  {
-    id: 6,
-    imageUrl: 'book6.png',
-    name: 'Book 6',
-    price: '99.000đ'
-  },
-  {
-    id: 7,
-    imageUrl: 'book7.png',
-    name: 'Book 7',
-    price: '99.000đ'
-  },
-  {
-    id: 8,
-    imageUrl: 'book8.png',
-    name: 'Book 8',
-    price: '99.000đ'
-  },
-  {
-    id: 9,
-    imageUrl: 'book9.png',
-    name: 'Book 9',
-    price: '99.000đ'
-  },
-  {
-    id: 10,
-    imageUrl: 'book10.png',
-    name: 'Book 10',
-    price: '99.000đ'
-  },
-  {
-    id: 11,
-    imageUrl: 'book11.png',
-    name: 'Book 11',
-    price: '99.000đ'
-  },
-  {
-    id: 12,
-    imageUrl: 'book12.png',
-    name: 'Book 12',
-    price: '99.000đ'
-  }
-]
-
 // Define the variables with `ref` if they're reactive
 const currentPage = ref(1)
-const totalPages = 10
+const totalPages = ref(1);
 const length = 5
-const productsPerPage = 8
+
 const searchText = ref('')
+const books = ([])
 
 // Comnputed
-const searchedBooks = computed(() => {
-  const start = (currentPage.value - 1) * productsPerPage
-  const end = start + productsPerPage
-  const searchWords = searchText.value.toLowerCase().split(' ')
 
-  const filteredBooks = books.filter((book) => {
-    return searchWords.every((word) => book.name.toLowerCase().includes(word))
+const searchableProducts = computed(() =>
+  books.value.map((book) => {
+    const { id, name, price, thumbnail, categoryName } = book;
+    return [id, name, price, thumbnail, categoryName].join("");
   })
+);
 
-  return filteredBooks.slice(start, end)
-})
+const filteredProducts = computed(() => {
+  if (!searchText.value) {
+    // const data = books.value;
+    const data = books;
+    console.log(data)
+    return data}
+    console.log(books.value)
+  return books.value.filter((books, index) => searchableProducts.value[index].includes(searchText.value)
+
+
+  );
+});
 
 // Method
 const handlePageChange = (newPage) => {
@@ -178,18 +112,19 @@ function goToAddBook() {
   $router.push({ name: "book.add" });
 }
 
-async function retrieveBooks() {
-  try {
-    const { books, metadata } = await booksService.getBooks(currentPage.value, productsPerPage);
-    totalPages.value = metadata.lastPage ?? 1;
-    searchedBooks.value = books;
-  } catch (error) {
-    console.error('Error retrieving books:', error);
 
-    // Handle the error, e.g., redirect to an error page or display a message
+async function retrieveBooks(page) {
+  try {
+    const chunk = await booksService.getBooks(page); // Gọi API để lấy danh sách sách
+    //console.log(chunk)
+    totalPages.value = chunk.metadata.lastPage ?? 1; // Cập nhật tổng số trang
+    //console.log(chunk.metadata.lastPage)
+    books.value = chunk.products; // Lưu danh sách sách từ API vào biến books
+    console.log(books.value)
+  } catch (error) {
+    console.log(error); // Xử lý lỗi nếu có
   }
 }
-
 
 // When this component is mounted, load the first page of contacts
 onMounted(() => retrieveBooks(1));

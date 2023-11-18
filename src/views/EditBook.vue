@@ -11,7 +11,7 @@ const $route = useRoute();
 const book = ref(null);
 const message = ref("");
 
-/*  Change to this when have backend api
+
 async function getBook(id) {
   try {
     book.value = await booksService.getBook(id);
@@ -26,17 +26,6 @@ async function getBook(id) {
     });
   }
 }
-*/
-
-async function getBook() {
-  try {
-    book.value = JSON.parse(decodeURIComponent($route.query.book));
-  } catch (error) {
-    console.error('Error parsing book data:', error);
-    // Handle the error, e.g., redirect to an error page or display a message
-  }
-}
-
 
 
 async function onUpdateBook(editedBook) {
