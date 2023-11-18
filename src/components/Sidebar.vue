@@ -34,7 +34,7 @@
           </li>
           <!-- Profile -->
           <li class="nav-links">
-            <a href="#">
+            <a href="/profile">
               <i class="bx bx-user icon"></i>
               <span class="text nav-text">Profile</span>
             </a>

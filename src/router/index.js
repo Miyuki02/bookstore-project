@@ -22,10 +22,12 @@ const routes = [
     component: () => import('@/views/Login.vue')
   },
   {
-    // Địa chỉ URL '/login'.
     path: '/cart',
-    // Sử dụng component Login khi địa chỉ này được truy cập.
     component: () => import('@/views/Cart.vue')
+  },
+  {
+    path: '/profile',
+    component: () => import('@/views/UserProfile.vue')
   },
   {
     path: '/books/:id',
